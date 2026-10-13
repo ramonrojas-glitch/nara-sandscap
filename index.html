@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#C8451C">
+<link rel="canonical" href="https://nara.sandscap.com.do/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://nara.sandscap.com.do/">
+<meta property="og:title" content="Nara Pizzería">
+<meta property="og:description" content="Pizza de horno en Santo Domingo. Escoge tu pizza y ordena en línea.">
+<meta property="og:image" content="https://nara.sandscap.com.do/img/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="preload" as="image" href="img/p_margherita.webp">
+<title>Nara Pizzería</title>
+<meta name="description" content="Nara Pizzería — pizza de horno en Santo Domingo. Ordena en línea y paga con tarjeta.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600&family=Archivo:wght@400;500;700&display=swap">
+<style>
+/* Layout: light concrete hero with a rotating pizza wheel, then white/stone/charcoal bands like a pizzeria menu board */
+:root{
+  --stone:#EEECE8; --paper:#FFFFFF; --ink:#1C1714; --ink-2:#3A322D; --muted:#5A4F48;
+  --accent:#C8451C; --accent-ink:#A9401A; --cheese:#FFB81C; --tomato:#C8251A;
+  --char:#161210; --char-2:#0F0C0A; --char-fg:#F3EEE7; --char-muted:#CFC5BA; --line:#D9D4CD;
+  --display:'Oswald','Arial Narrow',Impact,sans-serif; --body:'Archivo',system-ui,-apple-system,'Segoe UI',sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--stone);color:var(--ink);font-family:var(--body);font-size:16px;overflow-x:hidden}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--cheese);outline-offset:3px}
+h1,h2,h3{text-wrap:balance}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:16px}
+.eyebrow{font-family:var(--display);font-weight:500;font-size:14px;letter-spacing:.32em;text-transform:uppercase;color:var(--accent)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;border:0;border-radius:999px;cursor:pointer;text-decoration:none;font-family:var(--display);font-weight:500;letter-spacing:.14em;text-transform:uppercase}
+.btn-accent{background:var(--accent);color:#fff;padding:0 24px;font-size:14px;box-shadow:0 8px 18px rgba(200,69,28,.32)}
+.btn-accent:hover{background:var(--accent-ink)}
+.sec-title{margin:0;text-align:center;font-family:var(--display);font-weight:400;font-size:clamp(34px,4.4vw,52px);letter-spacing:.02em;text-transform:uppercase}
+
+/* Hero */
+.hero{position:relative;height:820px;overflow:hidden;background:var(--stone) url(img/bg.jpg) center top/cover no-repeat}
+.nav{position:absolute;top:0;left:0;right:0;z-index:5}
+.nav .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding-block:22px}
+.nav-links{display:flex;flex-wrap:wrap;align-items:center;gap:26px;font-family:var(--display);font-weight:500;font-size:15px;letter-spacing:.1em;text-transform:uppercase}
+.nav-links a:not(.btn){color:var(--ink);text-decoration:none}
+.nav-links a:not(.btn):hover{color:var(--accent)}
+.info{position:absolute;left:50%;top:104px;transform:translateX(-50%);width:760px;max-width:calc(100% - 32px);z-index:3;text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px}
+.info h1{margin:0;font-family:var(--display);font-weight:500;font-size:76px;line-height:1;letter-spacing:.02em;text-transform:uppercase;transition:opacity .3s ease,transform .3s ease}
+.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;min-height:36px}
+.chip{background:rgba(255,255,255,.9);border:1px solid #D9D2C8;border-radius:999px;padding:8px 14px;font-size:14px;font-weight:500;color:#2A221E;transition:opacity .3s ease,transform .3s ease}
+.out .info h1{opacity:0;transform:translateY(-8px)}
+.out .chip{opacity:0;transform:translateY(6px);transition-delay:0s !important}
+.stage{position:absolute;left:50%;top:0;width:1200px;height:820px;margin-left:-600px;transform-origin:top center}
+.stage svg.arc{position:absolute;left:0;top:0}
+.pname{position:absolute;background:transparent;border:0;cursor:pointer;padding:10px 8px;min-height:44px;white-space:nowrap;font-family:var(--display);font-weight:400;font-size:19px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);z-index:3;transition:color .25s ease}
+.pname:hover{color:var(--accent)}
+.pname[aria-pressed="true"]{color:var(--accent);font-weight:500;font-size:21px}
+.pizza{position:absolute;left:205px;top:485px;width:790px;height:790px;border-radius:50%;z-index:2;filter:drop-shadow(0 30px 40px rgba(28,23,20,.35));transition:transform .95s cubic-bezier(.22,.8,.24,1),opacity .38s ease}
+.order-pill{position:absolute;left:600px;top:640px;transform:translate(-50%,-50%);background:var(--ink);color:#fff;text-decoration:none;font-family:var(--display);font-weight:500;font-size:16px;letter-spacing:.16em;text-transform:uppercase;padding:16px 34px;border-radius:999px;z-index:4;box-shadow:0 10px 30px rgba(0,0,0,.35);white-space:nowrap}
+.order-pill:hover{background:#2A221E;color:#fff}
+@media (max-width:1240px){.stage{transform:scale(.82)}.hero{height:700px}}
+@media (max-width:1000px){.stage{transform:scale(.66)}.hero{height:600px}}
+.pick-row{display:none}
+/* Phone: names move out of the arc into a thumb-sized swipe row; the pizza stays big and keeps spinning */
+@media (max-width:760px){
+  .hero{height:624px}
+  .info{top:100px;gap:10px}
+  .info h1{font-size:46px}
+  .eyebrow{font-size:11px;letter-spacing:.24em}
+  .chips{gap:6px;min-height:0}
+  .chip{font-size:12.5px;padding:6px 11px}
+  .pick-row{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;width:100vw;padding:4px 16px 8px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .pick-row::-webkit-scrollbar{display:none}
+  .pick{flex:none;scroll-snap-align:center;min-height:44px;padding:0 18px;border-radius:999px;border:1px solid #CFC7BD;background:rgba(255,255,255,.92);color:var(--ink-2);font-family:var(--display);font-size:15px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;white-space:nowrap}
+  .pick[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+  .pname,#dots,.order-pill{display:none}
+  .stage{transform:scale(.48);top:146px}
+  .nav-links a:not(.btn){display:none}
+  .decor{display:none}
+}
+
+/* Order bar */
+.bar-band{background:var(--paper);padding-inline:16px}
+.bar{max-width:920px;margin:-44px auto 0;position:relative;z-index:6;display:flex;flex-wrap:wrap;background:var(--ink);border-radius:36px;padding:8px;gap:8px;box-shadow:0 18px 40px rgba(28,23,20,.25)}
+.bar-brand{background:var(--accent);color:#fff;border-radius:999px;padding:0 28px;display:flex;align-items:center;font-family:var(--display);font-weight:500;font-size:24px;letter-spacing:.04em;text-transform:uppercase;min-height:60px}
+.bar input{flex:1 1 220px;min-width:0;min-height:60px;background:transparent;border:0;color:#fff;font-family:inherit;font-size:16px;padding:0 18px}
+.bar input::placeholder{color:#B8ADA3}
+.bar button{background:var(--stone);color:var(--ink);padding:0 30px;min-height:60px;font-size:16px}
+.bar-msg{max-width:920px;margin:12px auto 0;text-align:center;font-size:14px;color:var(--muted);min-height:20px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* Local */
+.local{background:var(--paper);padding-block:56px 96px;position:relative;overflow:hidden}
+.decor{position:absolute;right:-40px;top:40px;width:180px;height:auto;pointer-events:none}
+.local .wrap{display:flex;flex-direction:column;gap:44px;position:relative}
+.timeline{position:relative;max-width:860px;width:100%;margin:0 auto}
+.timeline::before{content:"";position:absolute;left:0;right:0;top:33px;height:2px;background:var(--line)}
+.timeline ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;position:relative}
+.timeline li{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;font-family:var(--display);font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+.timeline li span{min-height:22px}
+.timeline li i{display:block;width:10px;height:10px;border-radius:50%;background:var(--ink)}
+.timeline li:first-child{color:var(--accent)}
+.timeline li:first-child i{width:18px;height:18px;background:#fff;border:4px solid var(--accent)}
+.local-row{display:flex;flex-wrap:wrap;align-items:center;gap:40px}
+.rider{flex:0 1 300px;width:300px;max-width:100%;height:auto}
+.local-info{flex:1 1 260px;min-width:0;display:flex;flex-direction:column;gap:18px}
+.local-info h3{margin:0;font-family:var(--display);font-weight:500;font-size:30px;text-transform:uppercase;letter-spacing:.02em}
+.local-info p{margin:0;font-size:16px;line-height:1.6;color:#4A403A}
+.local-info b{font-family:var(--display);font-weight:500;font-size:18px;text-transform:uppercase;letter-spacing:.04em}
+.map{flex:1 1 340px;min-width:0;min-height:240px;border-radius:18px;background:var(--stone);border:1px solid #DDD7CF;display:flex;align-items:center;justify-content:center;color:#6B5F57;font-weight:700;font-size:15px}
+
+/* Menu */
+.menu{background:var(--stone);padding-block:96px 110px}
+.menu .wrap{display:flex;flex-direction:column;gap:40px}
+.tabs{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 28px}
+.tab{background:transparent;border:0;border-bottom:2px solid transparent;cursor:pointer;min-height:44px;padding:8px 2px;font-family:var(--display);font-size:16px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+.tab[aria-selected="true"]{border-bottom-color:var(--accent);color:var(--accent-ink)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:28px}
+.card{display:flex;flex-direction:column;transition:transform .25s ease}
+.card:hover{transform:translateY(-6px)}
+.card-photo{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:4/3;max-width:100%;background:#2A221E}
+.card-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.fav{position:absolute;top:12px;right:12px;width:44px;height:44px;border-radius:50%;border:0;cursor:pointer;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.92);color:var(--tomato)}
+.fav[aria-pressed="true"]{background:var(--tomato);color:#fff}
+.fav[aria-pressed="true"] path{fill:currentColor}
+.card-body{background:var(--paper);margin:-34px 14px 0;border-radius:14px;padding:22px 18px 20px;position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;box-shadow:0 14px 30px rgba(28,23,20,.10);flex-grow:1}
+.card-body h3{margin:0;font-family:var(--display);font-weight:500;font-size:24px;text-transform:uppercase;letter-spacing:.03em}
+.price{font-family:var(--display);font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-ink)}
+.card-body p{margin:4px 0 8px;font-size:14px;line-height:1.5;color:var(--muted);flex-grow:1}
+.empty{text-align:center;padding:60px 24px;border:2px dashed #CFC8BF;border-radius:18px;color:var(--muted);font-size:17px}
+
+/* Nosotros */
+.about{background:var(--char);color:var(--char-fg);padding-block:110px;position:relative;overflow:hidden}
+.slice-deco{position:absolute;width:240px;height:auto;pointer-events:none}
+.about .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:56px;position:relative}
+.collage{flex:1 1 480px;min-width:0;position:relative;height:520px}
+.polaroid{position:absolute;background:#fff;padding:10px 10px 34px;box-shadow:0 20px 40px rgba(0,0,0,.45)}
+.polaroid img{width:100%;object-fit:cover;display:block}
+.seal{position:absolute;left:8%;top:330px;width:190px;height:190px;border-radius:50%;background:var(--ink);border:2px solid var(--cheese);display:flex;align-items:center;justify-content:center;box-shadow:0 20px 40px rgba(0,0,0,.5)}
+.about-text{flex:1 1 380px;min-width:0;display:flex;flex-direction:column;gap:22px}
+.about-text .eyebrow{color:var(--cheese)}
+.about-text h2{margin:0;font-family:var(--display);font-weight:300;font-size:clamp(36px,4.6vw,58px);line-height:1.12;letter-spacing:.02em;text-transform:uppercase}
+.about-text p{margin:0;font-size:17px;line-height:1.7;color:var(--char-muted);max-width:46ch}
+.btn-ghost{align-self:flex-start;border:2px solid var(--char-fg);color:var(--char-fg);padding:0 30px;font-size:16px}
+.btn-ghost:hover{background:var(--char-fg);color:var(--char)}
+@media (max-width:600px){.collage{height:420px}.seal{width:140px;height:140px;top:270px}.seal svg{width:124px;height:124px}}
+
+footer{background:var(--char-2);color:#A8998C;padding-block:48px}
+footer .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px}
+.social{display:flex;flex-wrap:wrap;gap:24px;font-family:var(--display);font-size:14px;letter-spacing:.12em;text-transform:uppercase}
+.social a{color:var(--char-fg);text-decoration:none}
+footer small{font-size:13px}
+
+@media (prefers-reduced-motion:reduce){*{transition-duration:.01s !important}}
+</style>
+</head>
+<body>
+
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="slice"><polygon points="0,100 48,0 96,100" fill="#FFB81C"></polygon><polygon points="0,100 8.2,83 87.8,83 96,100" fill="#B8641A"></polygon><circle cx="48" cy="40" r="7" fill="#C8251A"></circle><circle cx="35" cy="64" r="6.5" fill="#C8251A"></circle><circle cx="61" cy="66" r="6" fill="#C8251A"></circle></g>
+    <path id="letR" fill-rule="evenodd" d="M0 0H50C72 0 84 14 84 32C84 47 76 57 62 61L86 100H58L37 64H26V100H0Z M26 22V44H48C55 44 58 39 58 33C58 27 55 22 48 22Z"></path>
+    <polygon id="letN" points="0,100 0,0 26,0 64,60 64,0 90,0 90,100 64,100 26,40 26,100"></polygon>
+    <!-- Logo A "Órbita": the hero arc over a tall condensed wordmark -->
+    <symbol id="logoA" viewBox="0 0 240 150">
+      <path d="M42.9 63.95 A82 82 0 0 1 197.1 63.95" fill="none" stroke="#C8451C" stroke-width="2.4" stroke-linecap="round"></path>
+      <circle cx="42.9" cy="63.95" r="4" fill="#C8451C"></circle>
+      <circle cx="72.97" cy="24.83" r="4" fill="#C8451C"></circle>
+      <circle cx="167.03" cy="24.83" r="4" fill="#C8451C"></circle>
+      <circle cx="197.1" cy="63.95" r="4" fill="#C8451C"></circle>
+      <circle cx="120" cy="10" r="8.5" fill="none" stroke="#C8451C" stroke-width="2.4"></circle>
+      <circle cx="120" cy="10" r="4" fill="#C8451C"></circle>
+      <text x="125" y="118" text-anchor="middle" font-family="Oswald, 'Arial Narrow', sans-serif" font-weight="500" font-size="54" letter-spacing="11" fill="currentColor">NARA</text>
+      <text x="123" y="143" text-anchor="middle" font-family="Oswald, 'Arial Narrow', sans-serif" font-weight="500" font-size="13" letter-spacing="6" fill="#C8451C">PIZZERÍA</text>
+    </symbol>
+  </defs>
+</svg>
+
+<section class="hero" id="inicio" aria-label="Escoge tu pizza">
+  <header class="nav">
+    <div class="wrap">
+      <a href="#inicio" aria-label="Nara Pizzería, inicio" style="display:flex">
+        <svg width="112" height="70" aria-hidden="true" style="color:#1C1714"><use href="#logoA"></use></svg>
+      </a>
+      <nav class="nav-links" aria-label="Principal">
+        <a href="#menu">Menú</a>
+        <a href="#local">Local</a>
+        <a href="#nosotros">Nosotros</a>
+        <a href="#menu" class="btn btn-accent">Ordenar</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="info">
+    <span class="eyebrow">Pizza de horno · Santo Domingo</span>
+    <h1 id="pizza-name">Margherita</h1>
+    <div class="chips" id="chips" aria-live="polite"></div>
+    <div class="pick-row" id="pick-row" role="group" aria-label="Escoge tu pizza"></div>
+  </div>
+
+  <div class="stage">
+    <svg class="arc" width="1200" height="820" viewBox="0 0 1200 820" aria-hidden="true">
+      <circle cx="600" cy="880" r="478" fill="none" stroke="#1C1714" stroke-width="1.3"></circle>
+      <circle cx="600" cy="880" r="430" fill="none" stroke="#1C1714" stroke-opacity="0.18"></circle>
+      <g id="dots"></g>
+    </svg>
+    <div id="names"></div>
+    <img class="pizza" id="pizza" src="img/p_margherita.webp" alt="Pizza Margherita vista desde arriba" width="790" height="790">
+    <a href="#menu" class="order-pill" id="order-pill">Ordenar Margherita · RD$ [PRECIO]</a>
+  </div>
+</section>
+
+<div class="bar-band">
+  <form class="bar" id="order-form">
+    <div class="bar-brand">Nara Pizza</div>
+    <label for="nara-dir" class="sr">Tu sector o dirección</label>
+    <input id="nara-dir" type="text" placeholder="Escribe tu sector o dirección" autocomplete="street-address">
+    <button type="submit" class="btn">Ordenar en línea</button>
+  </form>
+  <p class="bar-msg" id="bar-msg" aria-live="polite"></p>
+</div>
+
+<section class="local" id="local">
+  <img class="decor" src="img/decor.webp" alt="" aria-hidden="true">
+  <div class="wrap">
+    <h2 class="sec-title">Del horno a tu puerta</h2>
+    <div class="timeline">
+      <ol>
+        <li><span>Elige tu pizza</span><i></i></li>
+        <li><span>Paga con AZUL</span><i></i></li>
+        <li><span>La horneamos</span><i></i></li>
+        <li><span>Va en camino</span><i></i></li>
+      </ol>
+    </div>
+    <div class="local-row">
+      <img class="rider" src="img/rider.webp" alt="Repartidor de Nara en su motor" width="300" height="300">
+      <div class="local-info">
+        <h3>Nara · Sucursal principal</h3>
+        <p>[DIRECCIÓN DEL LOCAL]<br>Santo Domingo, República Dominicana</p>
+        <div><b>Horario</b><p>[DÍAS Y HORAS]</p></div>
+        <p><strong style="color:var(--accent-ink)">[TELÉFONO / WHATSAPP]</strong></p>
+      </div>
+      <div class="map">[ MAPA DE UBICACIÓN ]</div>
+    </div>
+  </div>
+</section>
+
+<section class="menu" id="menu">
+  <div class="wrap">
+    <h2 class="sec-title">Nuestro menú</h2>
+    <div class="tabs" role="tablist" aria-label="Categorías del menú" id="tabs">
+      <button type="button" class="tab" role="tab" aria-selected="true" data-tab="0">Pizzas gourmet</button>
+      <button type="button" class="tab" role="tab" aria-selected="false" data-tab="1">Arma la tuya</button>
+      <button type="button" class="tab" role="tab" aria-selected="false" data-tab="2">Entradas y ensaladas</button>
+      <button type="button" class="tab" role="tab" aria-selected="false" data-tab="3">Pastas</button>
+      <button type="button" class="tab" role="tab" aria-selected="false" data-tab="4">Bebidas y postres</button>
+    </div>
+    <div class="cards" id="cards" role="tabpanel">
+      <article class="card"><div class="card-photo"><img src="img/margherita.jpg" alt="Pizza Margherita"><button type="button" class="fav" aria-pressed="false" aria-label="Agregar Margherita a favoritos"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"></path></svg></button></div><div class="card-body"><h3>Margherita</h3><span class="price">Desde RD$ [PRECIO]</span><p>Tomate, mozzarella fresca y albahaca.</p><button type="button" class="btn btn-accent">Ordenar</button></div></article>
+      <article class="card"><div class="card-photo"><img src="img/pepperoni.jpg" alt="Pizza de pepperoni"><button type="button" class="fav" aria-pressed="false" aria-label="Agregar Pepperoni a favoritos"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"></path></svg></button></div><div class="card-body"><h3>Pepperoni</h3><span class="price">Desde RD$ [PRECIO]</span><p>Pepperoni crujiente y mozzarella que se estira.</p><button type="button" class="btn btn-accent">Ordenar</button></div></article>
+      <article class="card"><div class="card-photo"><img src="img/criolla.jpg" alt="Pizza La Criolla con longaniza y maduro"><button type="button" class="fav" aria-pressed="false" aria-label="Agregar La Criolla a favoritos"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"></path></svg></button></div><div class="card-body"><h3>La Criolla</h3><span class="price">Desde RD$ [PRECIO]</span><p>Longaniza, maduro y cebolla morada.</p><button type="button" class="btn btn-accent">Ordenar</button></div></article>
+      <article class="card"><div class="card-photo"><img src="img/quesos.jpg" alt="Pizza Cuatro Quesos"><button type="button" class="fav" aria-pressed="false" aria-label="Agregar Cuatro Quesos a favoritos"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"></path></svg></button></div><div class="card-body"><h3>Cuatro Quesos</h3><span class="price">Desde RD$ [PRECIO]</span><p>Cuatro quesos y un toque de miel.</p><button type="button" class="btn btn-accent">Ordenar</button></div></article>
+    </div>
+    <div class="empty" id="empty" hidden>[PRODUCTOS DE ESTA CATEGORÍA]</div>
+  </div>
+</section>
+
+<section class="about" id="nosotros">
+  <img class="slice-deco" src="img/slice.webp" alt="" aria-hidden="true" style="left:-90px;top:40px;transform:rotate(-24deg)">
+  <img class="slice-deco" src="img/slice.webp" alt="" aria-hidden="true" style="right:-70px;bottom:30px;width:260px;transform:rotate(150deg)">
+  <div class="wrap">
+    <div class="collage">
+      <div class="polaroid" style="left:0;top:40px;width:52%;transform:rotate(-4deg)"><img src="img/ingredients.jpg" alt="Ingredientes frescos sobre pizarra" style="aspect-ratio:4/5"></div>
+      <div class="polaroid" style="left:34%;top:0;width:46%;transform:rotate(3deg)"><img src="img/bite.jpg" alt="Clienta disfrutando una pizza" style="aspect-ratio:3/4"></div>
+      <div class="polaroid" style="left:44%;top:290px;width:54%;transform:rotate(-2deg)"><img src="img/oven.jpg" alt="Pizza saliendo del horno de leña" style="aspect-ratio:4/3"></div>
+      <div class="seal">
+        <svg viewBox="0 0 200 200" width="170" height="170" role="img" aria-label="Sello NARA Pizzería"><defs><path id="ring" d="M100,100 m-70,0 a70,70 0 1,1 140,0 a70,70 0 1,1 -140,0"></path></defs><text font-family="Oswald, sans-serif" font-weight="500" font-size="15" letter-spacing="3.4" fill="#F3EEE7"><textPath href="#ring">NARA ✦ PIZZERÍA ✦ HECHA A MANO ✦</textPath></text><circle cx="100" cy="100" r="48" fill="#C8451C"></circle><path d="M74 96 A28 28 0 0 1 126 96" fill="none" stroke="#F3EEE7" stroke-width="2"></path><circle cx="100" cy="68" r="3.5" fill="#F3EEE7"></circle><circle cx="74" cy="96" r="2.5" fill="#F3EEE7"></circle><circle cx="126" cy="96" r="2.5" fill="#F3EEE7"></circle><text x="101.5" y="122" text-anchor="middle" font-family="Oswald, sans-serif" font-weight="500" font-size="26" letter-spacing="3" fill="#F3EEE7">NARA</text></svg>
+      </div>
+    </div>
+    <div class="about-text">
+      <span class="eyebrow">Nosotros</span>
+      <h2>Pizza de horno de leña que hasta el más exigente de la capital va a defender</h2>
+      <p>Nara es una pizzería local donde la masa se hace a mano, los ingredientes llegan frescos y cada pizza sale del horno directo a tu mesa o a tu puerta. Pide en línea y paga con tarjeta de forma segura a través de AZUL.</p>
+      <a href="#menu" class="btn btn-ghost">Ver el menú</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <svg width="160" height="100" role="img" aria-label="NARA Pizzería" style="color:#F3EEE7"><use href="#logoA"></use></svg>
+    <div class="social"><a href="#">Instagram</a><a href="#">TikTok</a><a href="#">WhatsApp</a></div>
+    <small>© 2026 Nara Pizzería · Pagos seguros con AZUL</small>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var PIZZAS=[
+    {name:'Margherita',img:'img/p_margherita.webp',ing:['Salsa de tomate','Mozzarella fresca','Albahaca','Aceite de oliva']},
+    {name:'Pepperoni',img:'img/p_pepperoni.webp',ing:['Pepperoni crujiente','Mozzarella','Salsa de tomate','Orégano']},
+    {name:'La Criolla',img:'img/p_criolla.webp',ing:['Longaniza','Maduro caramelizado','Cebolla morada','Queso blanco','Cilantro']},
+    {name:'Cuatro Quesos',img:'img/p_quesos.webp',ing:['Mozzarella','Gorgonzola','Parmesano','Gouda','Miel']},
+    {name:'Diavola',img:'img/p_diavola.webp',ing:['Salami picante','Ají picante','Mozzarella','Salsa de tomate','Albahaca']},
+    {name:'Hawaiana',img:'img/p_hawaiana.webp',ing:['Jamón','Piña asada','Mozzarella','Salsa de tomate']},
+    {name:'Vegetal',img:'img/p_veggie.webp',ing:['Tomate cherry','Aceitunas','Ají verde','Hongos','Cebolla','Maíz']},
+    {name:'La Nara',img:'img/p_nara.webp',ing:['Prosciutto','Rúcula','Parmesano','Tomate cherry','Balsámico']}
+  ];
+  // Preload so the swap never waits on the network
+  PIZZAS.forEach(function(p){var i=new Image();i.src=p.img;});
+
+  var hero=document.querySelector('.hero'), namesBox=document.getElementById('names'), dotsG=document.getElementById('dots');
+  var pizza=document.getElementById('pizza'), title=document.getElementById('pizza-name'), chips=document.getElementById('chips'), pill=document.getElementById('order-pill');
+  var cx=600, cy=880, R=478, Rt=520, n=PIZZAS.length, sel=0, rot=0, timer=null;
+  var btns=[], picks=[], dots=[], NS='http://www.w3.org/2000/svg';
+
+  PIZZAS.forEach(function(p,i){
+    var A=164-i*(148/(n-1)), rad=A*Math.PI/180;
+    var b=document.createElement('button');
+    b.type='button'; b.className='pname'; b.textContent=p.name;
+    b.style.left=(cx+Rt*Math.cos(rad)).toFixed(1)+'px';
+    b.style.top=(cy-Rt*Math.sin(rad)).toFixed(1)+'px';
+    b.style.transform='translate(-50%,-50%) rotate('+(90-A).toFixed(1)+'deg)';
+    b.addEventListener('click',function(){pick(i);});
+    namesBox.appendChild(b); btns.push(b);
+    var m=document.createElement('button');
+    m.type='button'; m.className='pick'; m.textContent=p.name;
+    m.addEventListener('click',function(){pick(i);});
+    document.getElementById('pick-row').appendChild(m); picks.push(m);
+    var c=document.createElementNS(NS,'circle');
+    c.setAttribute('cx',(cx+R*Math.cos(rad)).toFixed(1)); c.setAttribute('cy',(cy-R*Math.sin(rad)).toFixed(1));
+    dotsG.appendChild(c); dots.push(c);
+  });
+
+  function paintSelection(){
+    btns.forEach(function(b,i){b.setAttribute('aria-pressed',i===sel?'true':'false');});
+    picks.forEach(function(b,i){b.setAttribute('aria-pressed',i===sel?'true':'false'); if(i===sel && b.scrollIntoView && picks._ready) b.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});});
+    picks._ready=true;
+    dots.forEach(function(c,i){
+      if(i===sel){c.setAttribute('r','9');c.setAttribute('fill','#FFFFFF');c.setAttribute('stroke','#C8451C');c.setAttribute('stroke-width','4');}
+      else{c.setAttribute('r','4.5');c.setAttribute('fill','#1C1714');c.setAttribute('stroke','none');c.removeAttribute('stroke-width');}
+    });
+  }
+  function showPizza(i){
+    var p=PIZZAS[i];
+    pizza.src=p.img; pizza.alt='Pizza '+p.name+' vista desde arriba';
+    title.textContent=p.name; pill.textContent='Ordenar '+p.name+' · RD$ [PRECIO]';
+    chips.innerHTML='';
+    p.ing.forEach(function(t,k){var s=document.createElement('span');s.className='chip';s.textContent=t;s.style.transitionDelay=(0.12+k*0.07)+'s';chips.appendChild(s);});
+  }
+  function setPizzaTransform(out){
+    pizza.style.transform='rotate('+rot+'deg) scale('+(out?0.86:1)+')';
+    pizza.style.opacity=out?'0':'1';
+  }
+  // One image only: spin out and fade, swap source while invisible, spin back in. No two pizzas ever overlap.
+  function pick(i){
+    if(i===sel) return;
+    if(timer) clearTimeout(timer);
+    sel=i; paintSelection();
+    var base=rot; rot=base+180;
+    hero.classList.add('out'); setPizzaTransform(true);
+    timer=setTimeout(function(){
+      showPizza(i); rot=base+360;
+      hero.classList.remove('out'); setPizzaTransform(false);
+    },430);
+  }
+  showPizza(0); paintSelection(); setPizzaTransform(false);
+
+  // Order bar
+  document.getElementById('order-form').addEventListener('submit',function(e){
+    e.preventDefault();
+    var v=document.getElementById('nara-dir').value.trim(), msg=document.getElementById('bar-msg');
+    msg.textContent=v?('Buscando cobertura para: '+v):'Escribe tu sector para ver si llegamos hasta ti.';
+  });
+
+  // Menu tabs
+  var tabs=[].slice.call(document.querySelectorAll('.tab')), cards=document.getElementById('cards'), empty=document.getElementById('empty');
+  tabs.forEach(function(t){t.addEventListener('click',function(){
+    tabs.forEach(function(o){o.setAttribute('aria-selected',o===t?'true':'false');});
+    var pizzasTab=t.getAttribute('data-tab')==='0';
+    cards.hidden=!pizzasTab; empty.hidden=pizzasTab;
+  });});
+
+  // Favorites
+  [].slice.call(document.querySelectorAll('.fav')).forEach(function(f){f.addEventListener('click',function(){
+    var on=f.getAttribute('aria-pressed')!=='true', nm=f.closest('.card').querySelector('h3').textContent;
+    f.setAttribute('aria-pressed',on?'true':'false');
+    f.setAttribute('aria-label',(on?'Quitar de favoritos: ':'Agregar a favoritos: ')+nm);
+  });});
+})();
+</script>
+
+</body>
+</html>
