@@ -42,8 +42,14 @@ h1,h2,h3{text-wrap:balance}
 
 /* Hero */
 .hero{position:relative;height:820px;overflow:hidden;background:var(--stone) url(img/bg.jpg) center top/cover no-repeat}
-.nav{position:absolute;top:0;left:0;right:0;z-index:5}
-.nav .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding-block:22px}
+/* Header: fixed so Ordenar stays in reach while scrolling; transparent over the hero, solid stone bar once scrolled */
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 80px)}
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;padding-top:env(safe-area-inset-top,0px);background:rgba(238,236,232,0);transition:background-color .25s ease,box-shadow .25s ease}
+.nav .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding-block:22px;transition:padding .25s ease}
+.nav .logo-svg{display:block;transition:width .25s ease,height .25s ease}
+.nav.scrolled{background:rgba(238,236,232,.94);-webkit-backdrop-filter:saturate(1.4) blur(12px);backdrop-filter:saturate(1.4) blur(12px);box-shadow:0 1px 0 rgba(28,23,20,.08),0 8px 24px rgba(28,23,20,.10)}
+.nav.scrolled .wrap{padding-block:8px}
+.nav.scrolled .logo-svg{width:90px;height:56px}
 .nav-links{display:flex;flex-wrap:wrap;align-items:center;gap:26px;font-family:var(--display);font-weight:500;font-size:15px;letter-spacing:.1em;text-transform:uppercase}
 .nav-links a:not(.btn){color:var(--ink);text-decoration:none}
 .nav-links a:not(.btn):hover{color:var(--accent)}
@@ -184,7 +190,7 @@ footer small{font-size:13px}
   <header class="nav">
     <div class="wrap">
       <a href="#inicio" aria-label="Nara Pizzería, inicio" style="display:flex">
-        <svg width="112" height="70" aria-hidden="true" style="color:#1C1714"><use href="#logoA"></use></svg>
+        <svg class="logo-svg" width="112" height="70" aria-hidden="true" style="color:#1C1714"><use href="#logoA"></use></svg>
       </a>
       <nav class="nav-links" aria-label="Principal">
         <a href="#menu">Menú</a>
@@ -369,6 +375,10 @@ footer small{font-size:13px}
     },430);
   }
   showPizza(0); paintSelection(); setPizzaTransform(false);
+  // Fixed header: solid bar after scrolling; anchors land below it
+  var nav=document.querySelector('header.nav');
+  function navState(){nav.classList.toggle('scrolled',window.scrollY>8);}
+  navState(); addEventListener('scroll',navState,{passive:true});
 
   // Order bar
   document.getElementById('order-form').addEventListener('submit',function(e){
