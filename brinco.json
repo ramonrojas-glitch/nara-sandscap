@@ -1,0 +1,29 @@
+{
+  "negocio": "nara",
+  "nombre": "Nara",
+  "nombreLegal": "Nara Pizzería",
+  "dominio": "nara.sandscap.com.do",
+  "logo": "/img/nara-logo-h.png",
+  "logoBlanco": "/img/nara-logo-h-blanco.png",
+  "favicon": "/img/favicon.png",
+  "color": "#C8451C",
+  "colorTexto": "#1C1714",
+  "colorFondo": "#EEECE8",
+  "fuenteTitulos": "Oswald",
+  "fuenteTexto": "Archivo",
+  "googleFonts": "https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600&family=Archivo:wght@400;500;700&display=swap",
+  "prefijoOrden": "NR",
+  "moneda": "RD$",
+  "envio": 150,
+  "entrega": { "delivery": true, "pickup": true, "deliveryMin": 35, "deliveryMax": 50, "pickupMin": 20 },
+  "sectores": ["Gazcue", "Bella Vista", "Naco", "Piantini", "Evaristo Morales", "Serrallés", "Mirador Sur", "Los Cacicazgos", "Paraíso", "La Esperilla", "Julieta Morales", "Ciudad Universitaria", "Zona Colonial", "Arroyo Hondo", "Los Prados"],
+  "tienda": { "direccion": "Av. Sarasota 39, Bella Vista", "ciudad": "Santo Domingo", "mapa": "https://maps.google.com/?q=Av.+Sarasota+39,+Bella+Vista,+Santo+Domingo" },
+  "producto": { "singular": "pizza", "plural": "pizzas" },
+  "etapas": {
+    "preparando": "Estirando tu masa",
+    "coccion": "En el horno de leña",
+    "coccionTexto": "Horno de leña bien caliente. Tu pizza sale en minutos."
+  },
+  "contacto": { "direccion": "[Dirección del local]", "telefono": "[Teléfono / WhatsApp]", "correo": "[Correo]", "instagram": "[@usuario]" },
+  "idioma": "es"
+}

@@ -19,6 +19,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600&family=Archivo:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://piezza.sandscap.com.do/brinco/v1/kit.css">
+<script src="https://piezza.sandscap.com.do/brinco/v1/kit.js" defer></script>
 <style>
 /* Layout: light concrete hero with a rotating pizza wheel, then white/stone/charcoal bands like a pizzeria menu board */
 :root{
@@ -65,7 +67,7 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 80px)}
 .pname:hover{color:var(--accent)}
 .pname[aria-pressed="true"]{color:var(--accent);font-weight:500;font-size:21px}
 .pizza{position:absolute;left:205px;top:485px;width:790px;height:790px;border-radius:50%;z-index:2;filter:drop-shadow(0 30px 40px rgba(28,23,20,.35));transition:transform .95s cubic-bezier(.22,.8,.24,1),opacity .38s ease}
-.order-pill{position:absolute;left:600px;top:640px;transform:translate(-50%,-50%);background:var(--ink);color:#fff;text-decoration:none;font-family:var(--display);font-weight:500;font-size:16px;letter-spacing:.16em;text-transform:uppercase;padding:16px 34px;border-radius:999px;z-index:4;box-shadow:0 10px 30px rgba(0,0,0,.35);white-space:nowrap}
+.order-pill{border:0;cursor:pointer;position:absolute;left:600px;top:640px;transform:translate(-50%,-50%);background:var(--ink);color:#fff;text-decoration:none;font-family:var(--display);font-weight:500;font-size:16px;letter-spacing:.16em;text-transform:uppercase;padding:16px 34px;border-radius:999px;z-index:4;box-shadow:0 10px 30px rgba(0,0,0,.35);white-space:nowrap}
 .order-pill:hover{background:#2A221E;color:#fff}
 @media (max-width:1240px){.stage{transform:scale(.82)}.hero{height:700px}}
 @media (max-width:1000px){.stage{transform:scale(.66)}.hero{height:600px}}
@@ -163,6 +165,54 @@ footer small{font-size:13px}
 .fvault svg{flex:none;margin-top:2px;color:var(--cheese)}
 .fvault b{color:var(--char-fg);font-weight:600}
 
+/* Cart: header button with badge + "en tu carrito" pill, and a stone/ink drawer like the menu board */
+.cart-btn{position:relative;width:46px;height:46px;flex:none;border-radius:50%;border:1px solid #D9D2C8;background:rgba(255,255,255,.92);color:var(--ink);display:grid;place-items:center;cursor:pointer;padding:0}
+.cart-btn:hover{color:var(--accent);border-color:var(--accent)}
+.cart-badge{position:absolute;top:-5px;right:-5px;min-width:22px;height:22px;padding:0 6px;border-radius:999px;background:var(--accent);color:#fff;font:500 12px/22px var(--display);letter-spacing:.04em;text-align:center}
+.cart-badge[hidden]{display:none}
+.cart-badge.bump{animation:nrbump .45s cubic-bezier(.3,1.6,.5,1)}
+@keyframes nrbump{40%{transform:scale(1.35)}}
+.cart-added{position:absolute;top:calc(100% + 12px);right:0;white-space:nowrap;background:var(--ink);color:#fff;border-radius:999px;padding:8px 14px;font:500 13px var(--display);letter-spacing:.1em;text-transform:uppercase;opacity:0;transform:translateY(-6px);transition:opacity .2s ease,transform .2s ease;pointer-events:none;box-shadow:0 10px 24px rgba(28,23,20,.25)}
+.cart-added.show{opacity:1;transform:none}
+.cart-added::before{content:"";position:absolute;top:-5px;right:17px;width:10px;height:10px;background:var(--ink);transform:rotate(45deg)}
+.nr-scrim{position:fixed;inset:0;z-index:95;background:rgba(15,12,10,.55);opacity:0;visibility:hidden;transition:opacity .3s ease,visibility .3s}
+.nr-drawer{position:fixed;z-index:96;top:0;right:0;height:100vh;height:100dvh;width:min(420px,100vw);background:var(--stone);color:var(--ink);display:flex;flex-direction:column;box-shadow:-20px 0 50px -20px rgba(15,12,10,.5);transform:translateX(105%);visibility:hidden;transition:transform .34s cubic-bezier(.22,.8,.24,1),visibility .34s}
+body.cart-open .nr-scrim{opacity:1;visibility:visible}
+body.cart-open .nr-drawer{transform:none;visibility:visible}
+body.cart-open{overflow:hidden}
+.nr-dh{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:calc(env(safe-area-inset-top,0px) + 18px) 20px 16px;background:var(--ink);color:var(--char-fg)}
+.nr-dh h2{margin:0;font-family:var(--display);font-weight:500;font-size:28px;letter-spacing:.06em;text-transform:uppercase}
+.nr-dh h2 span{color:var(--cheese)}
+.nr-x{width:44px;height:44px;border-radius:50%;border:1px solid rgba(243,238,231,.35);background:transparent;color:var(--char-fg);display:grid;place-items:center;cursor:pointer}
+.nr-x:hover{border-color:var(--cheese);color:var(--cheese)}
+.nr-items{flex:1;overflow-y:auto;padding:18px 20px;display:flex;flex-direction:column;gap:12px}
+.nr-item{display:flex;align-items:center;gap:14px;background:var(--paper);border-radius:14px;padding:12px;box-shadow:0 8px 20px rgba(28,23,20,.07)}
+.nr-item img{width:72px;height:72px;flex:none;border-radius:50%;object-fit:cover;background:var(--char)}
+.nr-item-b{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.nr-item h3{margin:0;font-family:var(--display);font-weight:500;font-size:19px;letter-spacing:.04em;text-transform:uppercase;line-height:1.15}
+.nr-item small{color:var(--muted);font-size:13px}
+.nr-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:4px}
+.nr-qty{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px}
+.nr-qty button{width:40px;height:40px;border:0;background:transparent;color:var(--ink);font:500 20px var(--display);cursor:pointer;border-radius:50%}
+.nr-qty button:hover{color:var(--accent)}
+.nr-qty span{min-width:22px;text-align:center;font-family:var(--display);font-weight:500}
+.nr-amt{font-family:var(--display);font-weight:500;font-size:17px;letter-spacing:.04em;color:var(--accent-ink);white-space:nowrap}
+.nr-empty{margin:auto;text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px;padding:30px 10px;color:var(--muted)}
+.nr-empty b{font-family:var(--display);font-weight:500;font-size:22px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+.nr-df{padding:16px 20px calc(env(safe-area-inset-bottom,0px) + 18px);background:var(--paper);border-top:1px solid var(--line);display:flex;flex-direction:column;gap:10px}
+.nr-sub{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--display);text-transform:uppercase;letter-spacing:.08em}
+.nr-sub span{font-size:15px;color:var(--ink-2)}
+.nr-sub b{font-weight:500;font-size:24px}
+.nr-note{margin:0;font-size:13px;color:var(--muted)}
+.nr-pay{width:100%;min-height:54px;font-size:16px}
+.nr-pay[disabled]{opacity:.45;cursor:not-allowed;box-shadow:none}
+.card-body .btn-accent{gap:8px}
+.flegal{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:13px}
+.flegal a{color:#A8998C;text-decoration:none}
+.flegal a:hover{color:var(--char-fg);text-decoration:underline}
+@media (max-width:760px){.nav-links{gap:10px}.nav .btn-accent{padding:0 18px}}
+@media (prefers-reduced-motion:reduce){.cart-badge.bump{animation:none}.nr-drawer,.nr-scrim,.cart-added{transition:none}}
+
 @media (prefers-reduced-motion:reduce){*{transition-duration:.01s !important}}
 </style>
 </head>
@@ -199,7 +249,9 @@ footer small{font-size:13px}
         <a href="#menu">Menú</a>
         <a href="#local">Local</a>
         <a href="#nosotros">Nosotros</a>
+        <a href="/pedido/" data-brinco="mis-pedidos">Mis pedidos</a>
         <a href="#menu" class="btn btn-accent">Ordenar</a>
+        <button type="button" class="cart-btn" id="cart-btn" aria-label="Abrir carrito, 0 pizzas" aria-controls="nr-drawer" aria-expanded="false"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2l2.4 11.2a1.5 1.5 0 0 0 1.5 1.2h8.6a1.5 1.5 0 0 0 1.5-1.1L21 8H6.2"/><circle cx="9.5" cy="20" r="1.3"/><circle cx="17.5" cy="20" r="1.3"/></svg><span class="cart-badge" id="cart-badge" hidden>0</span><span class="cart-added" id="cart-added" role="status" aria-live="polite"></span></button>
       </nav>
     </div>
   </header>
@@ -219,7 +271,7 @@ footer small{font-size:13px}
     </svg>
     <div id="names"></div>
     <img class="pizza" id="pizza" src="img/p_margherita.webp" alt="Pizza Margherita vista desde arriba" width="790" height="790">
-    <a href="#menu" class="order-pill" id="order-pill">Ordenar Margherita · RD$ [PRECIO]</a>
+    <button type="button" class="order-pill" id="order-pill">Agregar Margherita · RD$ 595</button>
   </div>
 </section>
 
@@ -269,10 +321,10 @@ footer small{font-size:13px}
       <button type="button" class="tab" role="tab" aria-selected="false" data-tab="4">Bebidas y postres</button>
     </div>
     <div class="cards" id="cards" role="tabpanel">
-      <article class="card"><div class="card-photo"><img src="img/margherita.jpg" alt="Pizza Margherita"><button type="button" class="fav" aria-pressed="false" aria-label="Agregar Margherita a favoritos"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"></path></svg></button></div><div class="card-body"><h3>Margherita</h3><span class="price">Desde RD$ [PRECIO]</span><p>Tomate, mozzarella fresca y albahaca.</p><button type="button" class="btn btn-accent">Ordenar</button></div></article>
-      <article class="card"><div class="card-photo"><img src="img/pepperoni.jpg" alt="Pizza de pepperoni"><button type="button" class="fav" aria-pressed="false" aria-label="Agregar Pepperoni a favoritos"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"></path></svg></button></div><div class="card-body"><h3>Pepperoni</h3><span class="price">Desde RD$ [PRECIO]</span><p>Pepperoni crujiente y mozzarella que se estira.</p><button type="button" class="btn btn-accent">Ordenar</button></div></article>
-      <article class="card"><div class="card-photo"><img src="img/criolla.jpg" alt="Pizza La Criolla con longaniza y maduro"><button type="button" class="fav" aria-pressed="false" aria-label="Agregar La Criolla a favoritos"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"></path></svg></button></div><div class="card-body"><h3>La Criolla</h3><span class="price">Desde RD$ [PRECIO]</span><p>Longaniza, maduro y cebolla morada.</p><button type="button" class="btn btn-accent">Ordenar</button></div></article>
-      <article class="card"><div class="card-photo"><img src="img/quesos.jpg" alt="Pizza Cuatro Quesos"><button type="button" class="fav" aria-pressed="false" aria-label="Agregar Cuatro Quesos a favoritos"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"></path></svg></button></div><div class="card-body"><h3>Cuatro Quesos</h3><span class="price">Desde RD$ [PRECIO]</span><p>Cuatro quesos y un toque de miel.</p><button type="button" class="btn btn-accent">Ordenar</button></div></article>
+      <article class="card"><div class="card-photo"><img src="img/margherita.jpg" alt="Pizza Margherita"><button type="button" class="fav" aria-pressed="false" aria-label="Agregar Margherita a favoritos"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"></path></svg></button></div><div class="card-body"><h3>Margherita</h3><span class="price">RD$ 595 · Mediana 12″</span><p>Tomate, mozzarella fresca y albahaca.</p><button type="button" class="btn btn-accent add">Agregar</button></div></article>
+      <article class="card"><div class="card-photo"><img src="img/pepperoni.jpg" alt="Pizza de pepperoni"><button type="button" class="fav" aria-pressed="false" aria-label="Agregar Pepperoni a favoritos"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"></path></svg></button></div><div class="card-body"><h3>Pepperoni</h3><span class="price">RD$ 695 · Mediana 12″</span><p>Pepperoni crujiente y mozzarella que se estira.</p><button type="button" class="btn btn-accent add">Agregar</button></div></article>
+      <article class="card"><div class="card-photo"><img src="img/criolla.jpg" alt="Pizza La Criolla con longaniza y maduro"><button type="button" class="fav" aria-pressed="false" aria-label="Agregar La Criolla a favoritos"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"></path></svg></button></div><div class="card-body"><h3>La Criolla</h3><span class="price">RD$ 745 · Mediana 12″</span><p>Longaniza, maduro y cebolla morada.</p><button type="button" class="btn btn-accent add">Agregar</button></div></article>
+      <article class="card"><div class="card-photo"><img src="img/quesos.jpg" alt="Pizza Cuatro Quesos"><button type="button" class="fav" aria-pressed="false" aria-label="Agregar Cuatro Quesos a favoritos"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"></path></svg></button></div><div class="card-body"><h3>Cuatro Quesos</h3><span class="price">RD$ 795 · Mediana 12″</span><p>Cuatro quesos y un toque de miel.</p><button type="button" class="btn btn-accent add">Agregar</button></div></article>
     </div>
     <div class="empty" id="empty" hidden>[PRODUCTOS DE ESTA CATEGORÍA]</div>
   </div>
@@ -304,21 +356,36 @@ footer small{font-size:13px}
     <svg width="160" height="100" role="img" aria-label="NARA Pizzería" style="color:#F3EEE7"><use href="#logoA"></use></svg>
     <div class="social"><a href="#">Instagram</a><a href="#">TikTok</a><a href="#">WhatsApp</a></div>
     <small>© 2026 Nara Pizzería · Pagos seguros con AZUL</small>
-    <p class="fvault"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.6-3 8.4-7 10-4-1.6-7-5.4-7-10V6z"/><rect x="9" y="11" width="6" height="5" rx="1"/><path d="M10.5 11V9.6a1.5 1.5 0 0 1 3 0V11"/></svg><span><b>Brinco no guarda tarjetas.</b> Tus datos de pago quedan protegidos por el procesador certificado PCI DSS: <b>AZUL</b>, <b>CardNet</b> o <b>MIO</b>.</span></p>
+    <p class="fvault" data-brinco="vault-footer"></p>
+    <nav class="flegal" aria-label="Legal"><a href="/pedido/">Mis pedidos</a><a href="/seguridad/">Seguridad</a><a href="/privacidad/">Privacidad</a><a href="/terminos/">Términos</a></nav>
   </div>
 </footer>
+
+<div class="nr-scrim" id="nr-scrim"></div>
+<aside class="nr-drawer" id="nr-drawer" role="dialog" aria-modal="true" aria-labelledby="nr-dh" aria-hidden="true">
+  <div class="nr-dh">
+    <h2 id="nr-dh">Tu <span>carrito</span></h2>
+    <button type="button" class="nr-x" id="nr-x" aria-label="Cerrar carrito"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+  <div class="nr-items" id="nr-items"></div>
+  <div class="nr-df">
+    <div class="nr-sub"><span>Subtotal</span><b id="nr-sub">RD$ 0</b></div>
+    <p class="nr-note">El envío y la entrega o recogida los eliges al pagar.</p>
+    <button type="button" class="btn btn-accent nr-pay" id="nr-pay" disabled>Pagar</button>
+  </div>
+</aside>
 
 <script>
 (function(){
   var PIZZAS=[
-    {name:'Margherita',img:'img/p_margherita.webp',ing:['Salsa de tomate','Mozzarella fresca','Albahaca','Aceite de oliva']},
-    {name:'Pepperoni',img:'img/p_pepperoni.webp',ing:['Pepperoni crujiente','Mozzarella','Salsa de tomate','Orégano']},
-    {name:'La Criolla',img:'img/p_criolla.webp',ing:['Longaniza','Maduro caramelizado','Cebolla morada','Queso blanco','Cilantro']},
-    {name:'Cuatro Quesos',img:'img/p_quesos.webp',ing:['Mozzarella','Gorgonzola','Parmesano','Gouda','Miel']},
-    {name:'Diavola',img:'img/p_diavola.webp',ing:['Salami picante','Ají picante','Mozzarella','Salsa de tomate','Albahaca']},
-    {name:'Hawaiana',img:'img/p_hawaiana.webp',ing:['Jamón','Piña asada','Mozzarella','Salsa de tomate']},
-    {name:'Vegetal',img:'img/p_veggie.webp',ing:['Tomate cherry','Aceitunas','Ají verde','Hongos','Cebolla','Maíz']},
-    {name:'La Nara',img:'img/p_nara.webp',ing:['Prosciutto','Rúcula','Parmesano','Tomate cherry','Balsámico']}
+    {name:'Margherita',price:595,img:'img/p_margherita.webp',ing:['Salsa de tomate','Mozzarella fresca','Albahaca','Aceite de oliva']},
+    {name:'Pepperoni',price:695,img:'img/p_pepperoni.webp',ing:['Pepperoni crujiente','Mozzarella','Salsa de tomate','Orégano']},
+    {name:'La Criolla',price:745,img:'img/p_criolla.webp',ing:['Longaniza','Maduro caramelizado','Cebolla morada','Queso blanco','Cilantro']},
+    {name:'Cuatro Quesos',price:795,img:'img/p_quesos.webp',ing:['Mozzarella','Gorgonzola','Parmesano','Gouda','Miel']},
+    {name:'Diavola',price:745,img:'img/p_diavola.webp',ing:['Salami picante','Ají picante','Mozzarella','Salsa de tomate','Albahaca']},
+    {name:'Hawaiana',price:695,img:'img/p_hawaiana.webp',ing:['Jamón','Piña asada','Mozzarella','Salsa de tomate']},
+    {name:'Vegetal',price:645,img:'img/p_veggie.webp',ing:['Tomate cherry','Aceitunas','Ají verde','Hongos','Cebolla','Maíz']},
+    {name:'La Nara',price:895,img:'img/p_nara.webp',ing:['Prosciutto','Rúcula','Parmesano','Tomate cherry','Balsámico']}
   ];
   // Preload so the swap never waits on the network
   PIZZAS.forEach(function(p){var i=new Image();i.src=p.img;});
@@ -358,7 +425,7 @@ footer small{font-size:13px}
   function showPizza(i){
     var p=PIZZAS[i];
     pizza.src=p.img; pizza.alt='Pizza '+p.name+' vista desde arriba';
-    title.textContent=p.name; pill.textContent='Ordenar '+p.name+' · RD$ [PRECIO]';
+    title.textContent=p.name; pill.textContent='Agregar '+p.name+' · '+fmt(p.price);
     chips.innerHTML='';
     p.ing.forEach(function(t,k){var s=document.createElement('span');s.className='chip';s.textContent=t;s.style.transitionDelay=(0.12+k*0.07)+'s';chips.appendChild(s);});
   }
@@ -378,6 +445,62 @@ footer small{font-size:13px}
       hero.classList.remove('out'); setPizzaTransform(false);
     },430);
   }
+  // Cart: kept in this browser; checkout and payment go through the Brinco kit
+  function fmt(n){return 'RD$ '+Number(n).toLocaleString('en-US');}
+  var cart=[], KEY='nara-cart';
+  try{var saved=JSON.parse(localStorage.getItem(KEY)||'[]'); if(Array.isArray(saved)) cart=saved.filter(function(c){return c&&c.name&&c.qty>0&&c.unit>0;});}catch(e){}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(cart));}catch(e){}}
+  function byName(n){for(var i=0;i<PIZZAS.length;i++) if(PIZZAS[i].name===n) return PIZZAS[i]; return null;}
+  var cartBtn=document.getElementById('cart-btn'), badge=document.getElementById('cart-badge'), added=document.getElementById('cart-added');
+  var drawer=document.getElementById('nr-drawer'), scrim=document.getElementById('nr-scrim'), list=document.getElementById('nr-items'), sub=document.getElementById('nr-sub'), pay=document.getElementById('nr-pay');
+  function count(){return cart.reduce(function(a,c){return a+c.qty;},0);}
+  function total(){return cart.reduce(function(a,c){return a+c.qty*c.unit;},0);}
+  function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function render(){
+    var n=count(), t=total();
+    badge.textContent=n; badge.hidden=n===0;
+    cartBtn.setAttribute('aria-label','Abrir carrito, '+n+(n===1?' pizza':' pizzas'));
+    sub.textContent=fmt(t); pay.disabled=n===0; pay.textContent=n?('Pagar · '+fmt(t)):'Pagar';
+    if(!n){list.innerHTML='<div class="nr-empty"><svg width="64" height="66" viewBox="0 0 96 100" aria-hidden="true"><use href="#slice"></use></svg><b>Tu carrito está vacío</b><span>Escoge una pizza del menú y aparece aquí.</span><a href="#menu" class="btn btn-accent" data-close>Ver el menú</a></div>'; return;}
+    list.innerHTML=cart.map(function(c,i){return '<div class="nr-item"><img src="'+esc(c.img)+'" alt="" width="72" height="72"><div class="nr-item-b"><h3>'+esc(c.name)+'</h3><small>'+esc(c.detail)+' · '+fmt(c.unit)+'</small><div class="nr-row"><div class="nr-qty"><button type="button" data-q="-1" data-i="'+i+'" aria-label="Quitar una '+esc(c.name)+'">−</button><span>'+c.qty+'</span><button type="button" data-q="1" data-i="'+i+'" aria-label="Agregar otra '+esc(c.name)+'">+</button></div><span class="nr-amt">'+fmt(c.qty*c.unit)+'</span></div></div></div>';}).join('');
+  }
+  var addT=null;
+  function add(name){
+    var p=byName(name); if(!p) return;
+    var found=null; cart.forEach(function(c){if(c.name===name) found=c;});
+    if(found) found.qty++; else cart.push({name:p.name,detail:'Mediana 12″',qty:1,unit:p.price,img:'/'+p.img});
+    save(); render();
+    badge.classList.remove('bump'); void badge.offsetWidth; badge.classList.add('bump');
+    added.textContent='✓ '+p.name+' en tu carrito'; added.classList.add('show');
+    clearTimeout(addT); addT=setTimeout(function(){added.classList.remove('show');},2200);
+    if(window.Brinco&&Brinco.track) Brinco.track('carrito',{producto:p.name,total:total()});
+  }
+  var lastFocus=null;
+  function openCart(){lastFocus=document.activeElement; document.body.classList.add('cart-open'); drawer.setAttribute('aria-hidden','false'); cartBtn.setAttribute('aria-expanded','true'); setTimeout(function(){document.getElementById('nr-x').focus();},60);}
+  function closeCart(){if(!document.body.classList.contains('cart-open')) return; document.body.classList.remove('cart-open'); drawer.setAttribute('aria-hidden','true'); cartBtn.setAttribute('aria-expanded','false'); if(lastFocus&&lastFocus.focus) lastFocus.focus();}
+  cartBtn.addEventListener('click',openCart);
+  document.getElementById('nr-x').addEventListener('click',closeCart);
+  scrim.addEventListener('click',closeCart);
+  addEventListener('keydown',function(e){if(e.key==='Escape') closeCart();});
+  list.addEventListener('click',function(e){
+    var b=e.target.closest('[data-q]');
+    if(b){var c=cart[+b.getAttribute('data-i')]; if(c){c.qty+=+b.getAttribute('data-q'); cart=cart.filter(function(x){return x.qty>0;}); save(); render();} return;}
+    if(e.target.closest('[data-close]')) closeCart();
+  });
+  pay.addEventListener('click',function(){if(!count()) return; if(window.Brinco&&Brinco.checkout) Brinco.checkout();});
+  [].slice.call(document.querySelectorAll('.card .add')).forEach(function(b){
+    var nm=b.closest('.card').querySelector('h3').textContent; b.setAttribute('aria-label','Agregar '+nm+' al carrito');
+    b.addEventListener('click',function(){add(nm);});
+  });
+  pill.addEventListener('click',function(){add(PIZZAS[sel].name);});
+  window.BrincoCart={
+    items:function(){return cart.map(function(c){return {name:c.name,detail:c.detail,qty:c.qty,unit:c.unit,img:c.img};});},
+    total:total,
+    clear:function(){cart=[]; save(); render();},
+    close:closeCart
+  };
+  render();
+
   showPizza(0); paintSelection(); setPizzaTransform(false);
   // Fixed header: solid bar after scrolling; anchors land below it
   var nav=document.querySelector('header.nav');
