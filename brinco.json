@@ -25,5 +25,18 @@
     "coccionTexto": "Horno de leña bien caliente. Tu pizza sale en minutos."
   },
   "contacto": { "direccion": "[Dirección del local]", "telefono": "[Teléfono / WhatsApp]", "correo": "[Correo]", "instagram": "[@usuario]" },
-  "idioma": "es"
+  "idioma": "es",
+  "catalogo": {
+    "productos": {
+      "Margherita": 595,
+      "Pepperoni": 695,
+      "La Criolla": 745,
+      "Cuatro Quesos": 795,
+      "Diavola": 745,
+      "Hawaiana": 695,
+      "Vegetal": 645,
+      "La Nara": 895
+    },
+    "extras": {}
+  }
 }

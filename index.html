@@ -500,7 +500,7 @@ body.cart-open{overflow:hidden}
   });
   pill.addEventListener('click',function(){add(PIZZAS[sel].name);});
   window.BrincoCart={
-    items:function(){return cart.map(function(c){return {name:c.name,detail:c.detail,qty:c.qty,unit:c.unit,img:c.img};});},
+    items:function(){return cart.map(function(c){return {name:c.name,detail:c.detail,qty:c.qty,unit:c.unit,img:c.img,sku:{p:c.name}};});},
     total:total,
     clear:function(){cart=[]; save(); render();},
     close:closeCart
